@@ -76,6 +76,15 @@ export default function OrderModal() {
     };
   }, [isOpen]);
 
+  const deadlineField = register("deadline", {
+    required: true,
+    onBlur: (e) => {
+      if (!e.currentTarget.value) {
+        e.currentTarget.type = "text";
+      }
+    }
+  });
+
   const onSubmit = async (data: FormValues) => {
     const planLine = selectedPlan
       ? `Plan: ${selectedPlan.name} (£${selectedPlan.price})`
@@ -382,12 +391,8 @@ export default function OrderModal() {
                         e.currentTarget.type = "date";
                         e.currentTarget.showPicker?.();
                       }}
-                      onBlur={(e) => {
-                        if (!e.currentTarget.value)
-                          e.currentTarget.type = "text";
-                      }}
                       className="input deadline-input"
-                      {...register("deadline", { required: true })}
+                      {...deadlineField}
                     />
                     {errors.deadline && (
                       <p className="mt-1 text-xs text-red-400/90">
